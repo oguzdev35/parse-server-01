@@ -1,0 +1,26 @@
+{
+  "name": "parse-server-example",
+  "version": "1.4.0",
+  "description": "An example Parse API server using the parse-server module",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ParsePlatform/parse-server-example"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "~4.11.x",
+    "kerberos": "~0.0.x",
+    "parse": "~1.8.0",
+    "parse-server": "*"
+  },
+  "scripts": {
+    "backend": "node index.js",
+    "dashboard-win": "set PORT=4000 && parse-dashboard --config parse-dashboard-config.json",
+    "dashboard-nix": "PORT=4000 parse-dashboard --config parse-dashboard-config.json"
+  },
+  "engines": {
+    "node": ">=4.3"
+  }
+}
