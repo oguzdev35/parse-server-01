@@ -21,7 +21,9 @@ var dashboard  = new ParseDashboard({
       "serverURL": `http://localhost:${process.env.PORT}/parse` || process.env.SERVER_URL,
       "appId": process.env.APP_ID,
       "masterKey": process.env.MASTER_KEY,
-      "appName": process.env.APP_NAME
+      "appName": process.env.APP_NAME,
+	  "port": ${process.env.PORT},
+	  "production": true
     }
   ],
   "trustProxy":1,
