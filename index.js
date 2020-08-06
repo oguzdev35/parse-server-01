@@ -22,7 +22,7 @@ var dashboard  = new ParseDashboard({
       "appId": process.env.APP_ID,
       "masterKey": process.env.MASTER_KEY,
       "appName": process.env.APP_NAME,
-	  "port": ${process.env.PORT},
+	  "port": process.env.PORT,
 	  "production": true
     }
   ],
