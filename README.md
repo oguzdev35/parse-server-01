@@ -24,11 +24,7 @@ veya veri eklemek için parse-dashboard client'ini kullanacağız.
 * Administration ve Database ile ilgili ACL(Parse-server için access-control-list) düzenlenecek.
 * Client'in class oluşturması engellemeli. Client öncede admin tarafından oluşturulan classları kullanmalı.
 * Var olan Parse-server tek bir "app" bulunduruyor. Servera multi-app bir yapı kazandırmamız gerekiyor. (Ekonomik)
-* Http protokolü kullanıldığı zaman "App request"ler "plain text" biçiminde client'ten server'a gönderiliyor.
-    Bu durumda AppID, MasterKey gibi önemli veriler man-in-the-middle ve packet sniffing gibi yöntemlerle 
-    yetkisiz bir kişi tarafından ele geçirilebilir. Bu durumda http protokolü yerine https protokolü kullanmak
-    daha mantıklı. Bunun için uzaksunucuda "nginx" programından yararlanarak "reverse proxying" aracılığıyla gelen 
-    requestleri veya giden responseları şifreleyebiliriz.
+* Https ve Wss protocollerine uygunluk sağlanacak.
 * Internet bağlantısı kopması durumda local bir parse-serverın acil durum için devreye girmesi, nodejs'te bu mekanizmanın
   ayarlanabileceğini düşünüyorum ve gerekirse bunun için bir otomasyon hazılayabiliriz. Çalışma biçimi:
     - internet bağlantısı koptuğunda bir event listener aracılığıyla local parse-server'ı devreye sokacağız. 
@@ -38,8 +34,11 @@ veya veri eklemek için parse-dashboard client'ini kullanacağız.
 # Nasıl Çalıştırılır?
 Gereklilikler: nodejs, mongodb, yarn
 
+.env dosyası sisteme uygun modifiye edilir. Daha sonra:
+
 yarn install --frozen-lockfile
 yarn start
 
+örnek olarak
 dashboard linki => http://localhost:2000/dashboard
 parse server linki => http://localhost:2000/parse
