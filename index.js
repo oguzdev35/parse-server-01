@@ -22,7 +22,7 @@ var dashboard  = new ParseDashboard({
       "appName": process.env.APP_NAME
     }
   ],
-  "trustProxy":",
+  "trustProxy":1,
   "users": [
     {
       "user": process.env.DASHBOARD_USERNAME,
