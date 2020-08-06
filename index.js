@@ -6,7 +6,6 @@ var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 var ParseDashboard = require('parse-dashboard');
 
-console.log(process.env.PORT)
 
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
@@ -18,12 +17,10 @@ if (!databaseUri) {
 var dashboard  = new ParseDashboard({
   "apps": [
     {
-      "serverURL": `http://localhost:${process.env.PORT}/parse` || process.env.SERVER_URL,
+      "serverURL": process.env.SERVER_URL,
       "appId": process.env.APP_ID,
       "masterKey": process.env.MASTER_KEY,
-      "appName": process.env.APP_NAME,
-	  "port": process.env.PORT,
-	  "production": true
+      "appName": process.env.APP_NAME
     }
   ],
   "trustProxy":1,
@@ -40,7 +37,7 @@ var api = new ParseServer({
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || 'myAppId',
   masterKey: process.env.MASTER_KEY || 'myMasterKey', //Add your master key here. Keep it secret!
-  serverURL: `http://localhost:${process.env.PORT}/parse` || 'http://localhost:2000/parse',
+  serverURL: process.env.SERVER_URL || 'http://localhost:2000/parse',
   liveQuery: {
     classNames: ["Door"] // List of classes to support for query subscriptions
   },
