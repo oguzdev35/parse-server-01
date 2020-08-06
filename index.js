@@ -36,7 +36,7 @@ var api = new ParseServer({
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || 'myAppId',
   masterKey: process.env.MASTER_KEY || 'myMasterKey', //Add your master key here. Keep it secret!
-  serverURL: `https://localhost:${process.env.PORT}/parse` || 'http://localhost:2000/parse',
+  serverURL: `http://localhost:${process.env.PORT}/parse` || 'http://localhost:2000/parse',
   liveQuery: {
     classNames: ["Door"] // List of classes to support for query subscriptions
   },
