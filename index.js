@@ -21,8 +21,14 @@ var dashboard  = new ParseDashboard({
       "masterKey": "myMasterKey",
       "appName": "MyApp"
     }
+  ],
+  "users": [
+    {
+      "user": "admin",
+      "pass": "admin"
+    }
   ]
-})
+}, true)
 
 var api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
