@@ -16,16 +16,16 @@ if (!databaseUri) {
 var dashboard  = new ParseDashboard({
   "apps": [
     {
-      "serverURL": "http://localhost:2000/parse",
-      "appId": "myAppID",
-      "masterKey": "myMasterKey",
-      "appName": "MyApp"
+      "serverURL": process.env.SERVER_URL,
+      "appId": process.env.APP_ID,
+      "masterKey": process.env.MASTER_KEY,
+      "appName": process.env.APP_NAME
     }
   ],
   "users": [
     {
-      "user": "admin",
-      "pass": "admin"
+      "user": process.env.DASHBOARD_USERNAME,
+      "pass": process.env.DASHBOARD_PASS
     }
   ]
 }, true)
