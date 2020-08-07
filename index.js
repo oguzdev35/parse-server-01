@@ -1,82 +1,49 @@
-// Example express application adding the parse-server module to expose Parse
-// compatible API routes.
-require('dotenv').config();     // set process.env.*
-var express = require('express');
-var ParseServer = require('parse-server').ParseServer;
-var path = require('path');
-var ParseDashboard = require('parse-dashboard');
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+
+// utilities
+const { dashboardConstructor } = require('./utilities/pd.utility');
+const { 
+  parseServersInitialization
+} = require('./utilities/ps.utility');
+
+// initial parse-server datas
+const {apps, users} = require('./configs/parsedashboard.initialData');
+const { parserServerInitialDatas } = require('./configs/parseserver.initialData');
+
+// initialize express app
+const app = express();
+app.use(cors());  // allow cross-origin requests
+
+// Dashboard initialization
+const { dashboard }  = dashboardConstructor(apps, users);
+
+const { serverInstances } = parseServersInitialization(...parserServerInitialDatas);
 
 
-var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
+app.get('/p/ins01/sse-server', (req, res) => {
+  res.status(200).set({
+    "Cache-Control": "no-cache",
+    "Content-Type": "text/event-stream"
+  });
 
-if (!databaseUri) {
-  console.log('DATABASE_URI not specified, falling back to localhost.');
-}
-
-// Dashboard configuration
-var dashboard  = new ParseDashboard({
-  "apps": [
-    {
-      "serverURL": process.env.SERVER_URL,
-      "appId": process.env.APP_ID,
-      "masterKey": process.env.MASTER_KEY,
-      "appName": process.env.APP_NAME
-    }
-  ],
-  "trustProxy":1,
-  "users": [
-    {
-      "user": process.env.DASHBOARD_USERNAME,
-      "pass": process.env.DASHBOARD_PASS
-    }
-  ]
-}, true)
-
-var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
-  cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || 'myAppId',
-  masterKey: process.env.MASTER_KEY || 'myMasterKey', //Add your master key here. Keep it secret!
-  serverURL: process.env.SERVER_URL || 'http://localhost:2000/parse',
-  liveQuery: {
-    classNames: ["Door"] // List of classes to support for query subscriptions
-  },
-  websocketTimeout: 10 * 1000
+  res.write('data: Hello World!\n\n');
+  setTimeout(() => res.write('data: I am Oguz\n\n'), 5 * 1000)
 });
-// Client-keys like the javascript key or the .NET key are not necessary with parse-server
-// If you wish you require them, you can set them as options in the initialization above:
-// javascriptKey, restAPIKey, dotNetKey, clientKey
 
-var app = express();
-
-// Serve static assets from the /public folder
-app.use('/public', express.static(path.join(__dirname, '/public')));
-
-// Serve the Parse API on the /parse URL prefix
-var mountPath = process.env.PARSE_MOUNT || '/parse';
-app.use(mountPath, api);
-
+// Serve the Parse-Server instances on the /p URL prefix
+serverInstances.forEach( serverInstance => {
+  app.use(serverInstance.mountPath, serverInstance.api);
+});
 
 // Serve the Dashboard on the /dashboard URL prefix
 app.use('/dashboard', dashboard);
 
-// Parse Server plays nicely with the rest of your web routes
-app.get('/', function(req, res) {
-  res.status(200).send('I dream of being a website.  Please star the parse-server repo on GitHub!');
-});
-
-// There will be a test page available on the /test path of your server url
-// Remove this before launching your app
-app.get('/test', function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/test.html'));
-});
-
 
 var port = process.env.PORT || process.env.PORT_DEV || 1337;
-var httpServer = require('http').createServer(app);
+const httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
-    console.log('parse-server-example running on port ' + port + '.');
+    console.log('Server running on port ' + port + '.');
 });
 
-// This will enable the Live Query real-time server
-ParseServer.createLiveQueryServer(httpServer);

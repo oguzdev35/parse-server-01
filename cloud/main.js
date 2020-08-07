@@ -1,9 +1,3 @@
-Parse.Cloud.define('hello', function(req, res) {
-  return 'Hi';
+Parse.Cloud.afterSave("Door", (request) => {
+  console.log('Hello')
 });
-
-Parse.Cloud.afterSave('TeamMember', async (req) => {
-  if(req.context.notifyTeam){
-    console.log("Notification works")
-  }
-})

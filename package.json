@@ -17,9 +17,12 @@
     "parse-server": "*"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "engines": {
     "node": ">=4.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
