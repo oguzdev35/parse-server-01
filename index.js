@@ -72,7 +72,7 @@ app.get('/test', function(req, res) {
 });
 
 
-var port = process.env.PORT || process.env.PORT_ENV || 1337;
+var port = process.env.PORT || process.env.PORT_DEV || 1337;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
     console.log('parse-server-example running on port ' + port + '.');
