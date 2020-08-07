@@ -1,3 +1,4 @@
+require('dotenv').config();
 const apps = [
     {
       "serverURL": "http://localhost:2000/p/master",

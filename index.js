@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const EventEmitter = require('events');
+const event = new EventEmitter();
 
 // utilities
 const { dashboardConstructor } = require('./utilities/pd.utility');
@@ -16,21 +18,16 @@ const { parserServerInitialDatas } = require('./configs/parseserver.initialData'
 const app = express();
 app.use(cors());  // allow cross-origin requests
 
+
+
 // Dashboard initialization
 const { dashboard }  = dashboardConstructor(apps, users);
 
 const { serverInstances } = parseServersInitialization(...parserServerInitialDatas);
 
 
-app.get('/p/ins01/sse-server', (req, res) => {
-  res.status(200).set({
-    "Cache-Control": "no-cache",
-    "Content-Type": "text/event-stream"
-  });
 
-  res.write('data: Hello World!\n\n');
-  setTimeout(() => res.write('data: I am Oguz\n\n'), 5 * 1000)
-});
+
 
 // Serve the Parse-Server instances on the /p URL prefix
 serverInstances.forEach( serverInstance => {

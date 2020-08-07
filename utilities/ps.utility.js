@@ -11,9 +11,9 @@ const parseServerConstructor = (databaseCollectionName, appId, serverPath, SSECl
                 appId: appId,
                 masterKey: process.env.MASTER_KEY || 'myMasterKey',
                 serverURL: `${process.env.SERVER_ROOT_URI}/p/${serverPath}`,
-                SSEClasses: SSEClasses
             }),
-        mountPath: '/p/' + serverPath
+        mountPath: '/p/' + serverPath,
+        appId: appId
     }
     
 }
@@ -23,8 +23,8 @@ const parseServersInitialization = (...serverInitializationDatas) => {
 
     let serverInstances = [];
 
-    serverInitializationDatas.forEach( ({databaseCollectionName, appId, serverPath, SSEClasses}) => {
-        serverInstances.push(parseServerConstructor(databaseCollectionName, appId, serverPath, SSEClasses));
+    serverInitializationDatas.forEach( ({databaseCollectionName, appId, serverPath}) => {
+        serverInstances.push(parseServerConstructor(databaseCollectionName, appId, serverPath));
     })
 
     return {serverInstances};
