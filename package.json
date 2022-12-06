@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "express": "~4.11.x",
+    "express": "~4.17.x",
     "kerberos": "~0.0.x",
     "parse": "~1.8.0",
     "parse-dashboard": "^2.1.0",
